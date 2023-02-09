@@ -1,4 +1,5 @@
 ﻿using Empress_Game_Engine.Factories;
+using Empress_Game_Engine.Handlers;
 using Empress_Game_Engine.Interface;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,10 +12,9 @@ namespace Empress_Game_Engine
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
-        private ISprite character;
-        private ISprite singleCharacter;
-        private ISprite walkingCharacter;
         private SpriteFactory spriteFactory;
+
+        private Scene scene;
 
         public GameRoot()
         {
@@ -27,27 +27,19 @@ namespace Empress_Game_Engine
         {
             spriteFactory = new SpriteFactory(Content);
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            character = spriteFactory.getCharacterSprite();
-            singleCharacter = spriteFactory.getSingleCharacterSprite();
-            walkingCharacter = spriteFactory.getWalkingCharacterSprite();
-
+            scene = new Scene();
         }
 
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            character = spriteFactory.getCharacterSprite();
-
-            // TODO: use this.Content to load your game content here
         }
 
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
-            walkingCharacter.Update(gameTime);
-
+            scene.update(gameTime);
             base.Update(gameTime);
         }
 
@@ -56,9 +48,7 @@ namespace Empress_Game_Engine
             spriteBatch.Begin();
             GraphicsDevice.Clear(Color.CornflowerBlue);
             base.Draw(gameTime);
-            character.Draw(spriteBatch, new Vector2(0, 0));
-            singleCharacter.Draw(spriteBatch, new Vector2(300, 100));
-            walkingCharacter.Draw(spriteBatch, new Vector2(500, 100));
+            scene.render(spriteBatch);
             spriteBatch.End();
         }
     }

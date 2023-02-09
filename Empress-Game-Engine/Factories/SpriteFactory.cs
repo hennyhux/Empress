@@ -16,8 +16,8 @@ namespace Empress_Game_Engine.Factories
     {
         #region textures
 
-        private Texture2D questionBlock;
-        private Texture2D character;
+        private static Texture2D questionBlock;
+        private static Texture2D character;
 
         #endregion
 
@@ -27,17 +27,17 @@ namespace Empress_Game_Engine.Factories
             character = content.Load<Texture2D>("Char/charaset");
         }
 
-        public ISprite getCharacterSprite()
+        public static ISprite getCharacterSprite()
         {
             return new StaticSprite(character, new Rectangle(0, 0, character.Width, character.Height));
         }
 
-        public ISprite getSingleCharacterSprite()
+        public static ISprite getSingleCharacterSprite()
         {
             return new StaticSprite(character, new Rectangle(0, 0, 48, 64));
         }
 
-        public ISprite getWalkingCharacterSprite()
+        public static ISprite getWalkingCharacterSprite()
         {
             return new AnimatedSprite(character);
         }
